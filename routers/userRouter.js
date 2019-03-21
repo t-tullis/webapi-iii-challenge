@@ -49,7 +49,7 @@ router.get('/:id', (req,res) => {
 
 
 //Update User 
-router.put('/:id', (req, res) => {
+router.put('/:id', nameCheck, (req, res) => {
     const { id } = req.params;
     const { name } = req.body;
     db.update(id, { name }).then(user =>{
