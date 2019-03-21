@@ -2,6 +2,15 @@ const express = require('express');
 const router = express.Router();
 const db = require('../data/helpers/userDb.js')
 
+// Middleware 
+const nameCheck = (req, res, next) => {
+    const { name } = req.body;
+    if (name[0] !== name[0].toUpperCase() ) {
+      res.status(400).send('Please capitalize the first letter of your name')
+    } else {
+      next();
+    }
+  };
 
 //Gets all Users
 router.get('/', (req, res) => {
@@ -13,7 +22,7 @@ router.get('/', (req, res) => {
 })
 
 //Create user
-router.post('/', (req,res) => {
+router.post('/', nameCheck, (req,res) => {
     const { name } = req.body
     if(!name){
         res.status(400).json({ message: "Please provide a name for this user"})
